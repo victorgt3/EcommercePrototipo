@@ -3,3 +3,15 @@
 ################################################################################
 
 /.vs/SW
+/src/SW.Domain/bin/Debug/netcoreapp3.1
+/src/SW.Domain.Core/bin/Debug/netcoreapp3.1
+/src/SW.Domain.Core/obj
+/src/SW.Domain/obj
+/src/SW.Infra.CrossCutting.AutoMapper/bin/Debug/netcoreapp3.1
+/src/SW.Infra.CrossCutting.AutoMapper/obj
+/src/SW.Infra.CrossCutting.IoC/bin/Debug/netcoreapp3.1
+/src/SW.Infra.CrossCutting.IoC/obj
+/src/SW.Infra.Data/bin/Debug/netcoreapp3.1
+/src/SW.Infra.Data/obj
+/src/SW.Services.Api/bin/Debug/netcoreapp3.1
+/src/SW.Services.Api/obj

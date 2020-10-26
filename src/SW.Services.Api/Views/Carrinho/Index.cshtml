@@ -1,0 +1,96 @@
+﻿@model IEnumerable<SW.Domain.Entities.Carrinho.Carrinho>
+@{
+    ViewData["Title"] = "Carrinho de Compras";
+}
+
+<div class="card">
+    <div class="card-header badge-danger text-light">
+        <div class="row">
+            <div class="col-8">
+                <h4 class="m-0">
+                    <i class="fi-xnluxl-shopping-cart" aria-hidden="true"></i>
+                    @ViewData["Title"]
+                </h4>
+            </div>
+            <div class="col-4 text-right">
+                <a asp-controller="Produtoes" class="btn btn-outline-light btn-sm">
+                    Continuar Comprando
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card-body">
+    @if ((Model != null))
+    {
+        @foreach (var item in Model)
+        {
+            <div class="row" id="@($"divItem{item.Produto.Id}")">
+                <div class="col-sm-3 col-md-2 text-center mb-2 mb-sm-0">
+                    <h4 class="product-name"><strong>@item.Produto.Nome</strong></h4>
+                </div>
+                <div class="col-sm-3 col-md-2 text-center mb-2 mb-sm-0">
+                    <input type="number" name="@item.Id" step="1" max="99" min="1"
+                           value="@item.Quantidade" title="Quantidade"
+                           class="border-dark px-1 input-spinner" />
+                </div>
+                <div class="col-sm-3 col-md-2 text-center mb-2 mb-sm-0">
+                    <h4 class="product-preco"><strong id="@($"valor{item.Produto.Id}")">R$@item.Produto.Preco.ToString("F2")</strong></h4>
+                </div>
+                @if (item.Produto.Promocao != null)
+                {
+                    <div class="col-sm-3 col-md-2 text-center mb-2 mb-sm-0">
+                        <h4 class="product-descricao"><strong>@item.Produto.Promocao.Descricao</strong></h4>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-3 col-md-2 text-center mb-2 mb-sm-0">
+                        <h4 class="product-descricao"><strong></strong></h4>
+                    </div>
+                }
+                <div class="col-3 text-right">
+                    <a asp-controller="Carrinho" asp-action="Delete" asp-route-id="@item.Id" type="button" class="btn btn-outline-danger btn-xs btn-del"
+                       name="@item.Produto.Id">
+                        Excluir
+                    </a>
+                </div>
+            </div>
+            <hr id="@($"sepItem{item.Produto.Id}")">
+        }
+    }
+    else
+    {
+        <h3>Seu Carrinho de Compras está vazio.</h3>
+    }
+
+</div>
+<div class="card-footer text-right">
+    <div class="pull-right">
+        <div class="pull-right mb-2">
+            Valor Total <b id="valorPedido">R$ @ViewBag.Total.ToString("F2")</b>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(".input-spinner").change(function () {
+            var quantidade = $(this).val();
+            var produtoId = $(this).attr("name");
+
+            $.post("/Carrinho/UpdateCartItem",
+                {
+                    id: produtoId,
+                    quantidade: quantidade
+                },
+                function (data, status){
+                    if(status == "success"){
+                        if(!data) return;
+                        location.reload();
+                    }
+                }
+            );
+        });
+    </script>
+}
